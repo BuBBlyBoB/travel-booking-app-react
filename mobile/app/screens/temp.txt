@@ -1,0 +1,198 @@
+// LoginScreen.js
+
+import React, { useState } from 'react';
+import { View, TextInput, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+const LoginScreen = () => {
+    const [userId, setUserId] = useState('');
+    const [userName, setUserName] = useState('');
+    const navigation = useNavigation();
+
+    const handleLogin = () => {
+        // Perform login logic, fetch user details, etc.
+        // For example purposes, directly passing the user details:
+        navigation.navigate('Dashboard', {
+            userId: userId,
+            userName: userName,
+        });
+    };
+
+    return (
+        <View>
+            <TextInput
+                placeholder="User ID"
+                value={userId}
+                onChangeText={setUserId}
+            />
+            <TextInput
+                placeholder="User Name"
+                value={userName}
+                onChangeText={setUserName}
+            />
+            <Button title="Login" onPress={handleLogin} />
+        </View>
+    );
+};
+
+export default LoginScreen;
+
+
+
+
+
+// DashboardScreen.js
+
+import React from 'react';
+import { View, Text } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+
+const DashboardScreen = () => {
+    const route = useRoute();
+    const { UserID, Name } = route.params?.state || {}; // Retrieve UserID and Name from params
+
+    return (
+        <View>
+            <Text>User ID: {UserID}</Text>
+            <Text>User Name: {Name}</Text>
+            {/* Other content of the Dashboard screen */}
+        </View>
+    );
+};
+
+export default DashboardScreen;
+
+
+
+
+
+
+
+
+import React from 'react';
+import { View, Text } from 'react-native';
+import TicketDesc from './TicketDesc'; // Import the TicketDesc component
+
+const TicketsList = ({ tickets }) => {
+  const handleDelete = (ticketId) => {
+    // Implement logic to delete a ticket based on ID
+    console.log(`Deleting ticket with ID: ${ticketId}`);
+  };
+
+  return (
+    <View>
+      <Text>
+        Here are your Tickets:
+      </Text>
+      {tickets.map((ticket) => (
+        <TicketDesc
+          key={ticket.id}
+          id={ticket.id}
+          countryFrom={ticket.countryFrom}
+          countryTo={ticket.countryTo}
+          distanceKm={ticket.distanceKm}
+          numPass={ticket.numPass}
+          numDays={ticket.numDays}
+          price={ticket.price}
+          onDelete={() => handleDelete(ticket.id)}
+        />
+      ))}
+    </View>
+  );
+};
+
+export default TicketsList;
+
+
+
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // If using React Navigation
+
+const YourComponent = ({ countries }) => {
+  const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation(); // If using React Navigation
+
+  const handleInputChange = (text) => {
+    setSearchText(text);
+    // Implement your filtering logic here based on 'text'
+    // Filter 'countries' based on the search text and update the display accordingly
+  };
+
+  const CountryDesc = (country, city, description, img, long, lat) => {
+    // Your implementation for CountryDesc function
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <TextInput
+        onChangeText={handleInputChange}
+        placeholder="SEARCH FOR YOUR FAVORITE COUNTRY"
+        style={styles.input}
+      />
+      {countries
+        .filter((country) =>
+          country.Country.toLowerCase().includes(searchText.toLowerCase())
+        )
+        .map((country, i) =>
+          CountryDesc(
+            country.Country,
+            country.city,
+            country.Description,
+            country.img,
+            country.Longitude,
+            country.latitude
+          )
+        )}
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <Text style={{ color: 'white' }}>Back</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+};
+
+const styles = {
+  container: {
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  input: {
+    width: '80%',
+    padding: 20,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  backBtn: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+};
+
+export default YourComponent;
+
+
+
+{
+        "countryID": 2,
+        "Country": "Thailand",
+        "city": "Bangkok",
+        "Description": "Famous for its ancient temples, bustling markets, spicy cuisine, and tropical beaches. Thailand offers a mix of bustling cities like Bangkok and serene areas like Chiang Mai.\r\n",
+        "Longitude": 100.502,
+        "latitude": 13.7563,
+        "img": "https://www.littlediscoveries.net/site/assets/files/1232/01-bangkok-02-2016-littlediscoveriesnet.2560x1024.jpg"
+    },
+
+
+
+        country,
+    city,
+    description,
+    img,
+    long, 
+    lat 
